@@ -1,4 +1,11 @@
-import { Column, Model, Table, AllowNull, HasOne, HasMany } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  AllowNull,
+  HasOne,
+  HasMany,
+} from 'sequelize-typescript';
 import { Chat } from '../../chats/entities/chat.entity';
 
 @Table

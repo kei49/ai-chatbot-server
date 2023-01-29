@@ -20,5 +20,4 @@ export class Chat extends Model {
   @ForeignKey(() => User)
   @Column
   userId: number;
-
 }
