@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 import { AppController } from './app.controller';
@@ -7,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
 import { Chat } from './chats/entities/chat.entity';
 import { ChatsModule } from './chats/chats.module';
+import { AuthMiddleware } from '../shared/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -27,4 +33,12 @@ import { ChatsModule } from './chats/chats.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'users/login', method: RequestMethod.POST })
+      .exclude({ path: '', method: RequestMethod.GET })
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UserRepository } from './repository/user.repository';
@@ -11,6 +12,10 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     return this.userRepository.create(createUserDto);
+  }
+
+  async login(loginUserDto: LoginUserDto) {
+    return this.userRepository.login(loginUserDto);
   }
 
   async findAll(): Promise<User[]> {
