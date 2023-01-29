@@ -1,36 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { UpdateUserDto } from '../users/dto/update-user.dto';
+import { UserRepository } from '../users/repository/user.repository';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { Chat } from './entities/chat.entity';
+import { ChatRepository } from './repository/chat.repository';
 
 @Injectable()
 export class ChatsService {
-  constructor(@InjectModel(Chat) private chatModel: typeof Chat) {}
+  constructor(
+    private chatRepository: ChatRepository,
+    private userRepository: UserRepository,
+  ) {}
 
   async create(createChatDto: CreateChatDto) {
-    const chat = await this.chatModel.create({ ...createChatDto });
-    return chat;
+    return this.chatRepository.create(createChatDto);
   }
 
   async findAll(): Promise<Chat[]> {
-    return this.chatModel.findAll();
+    return this.chatRepository.findAll();
   }
 
-  async findOne(id: string): Promise<Chat | null> {
-    return this.chatModel.findOne({
-      where: {
-        id,
-      },
-    });
+  async findOne(id: number): Promise<Chat | null> {
+    return this.chatRepository.findOne(id);
   }
 
-  async update(id: string, updateChatDto: UpdateChatDto): Promise<any> {
-    return await this.chatModel.update({ ...updateChatDto }, { where: { id } });
+  async update(id: number, updateChatDto: UpdateChatDto): Promise<any> {
+    return this.chatRepository.update(id, updateChatDto);
   }
 
-  async remove(id: string): Promise<void> {
-    const chat = await this.findOne(id);
-    await chat?.destroy();
+  async remove(id: number): Promise<void> {
+    return this.chatRepository.remove(id);
+  }
+
+  async joinChat(id: number, userId: number): Promise<Chat> {
+    return this.userRepository.update(userId, {
+      currentChatId: id,
+    } as UpdateUserDto);
   }
 }

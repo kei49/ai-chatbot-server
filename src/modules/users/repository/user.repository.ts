@@ -19,7 +19,7 @@ export class UserRepository {
     return this.userModel.findAll();
   }
 
-  async findOne(id: string): Promise<User | null> {
+  async findOne(id: number): Promise<User | null> {
     return this.userModel.findOne({
       where: {
         id,
@@ -47,11 +47,11 @@ export class UserRepository {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<any> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
     return await this.userModel.update({ ...updateUserDto }, { where: { id } });
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     const user = await this.findOne(id);
     await user?.destroy();
   }

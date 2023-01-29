@@ -17,19 +17,19 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
-  async findOne(id: string): Promise<User | null> {
+  async findOne(id: number): Promise<User | null> {
     return this.userRepository.findOne(id);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<any> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
     return await this.userRepository.update(id, updateUserDto);
   }
 
   async findByUsername(userName: string): Promise<User | null> {
-    return this.userRepository.findOne(userName);
+    return this.userRepository.findByUsername(userName);
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: number): Promise<void> {
     return this.userRepository.remove(id);
   }
 }

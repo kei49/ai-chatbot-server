@@ -11,17 +11,18 @@ import { User } from '../../users/entities/user.entity';
 @Table
 export class Chat extends Model {
   @ApiProperty()
+  @AllowNull(false)
   @Column
   name: string;
 
   // @ForeignKey(() => Chatbot)
   @ApiProperty()
-  @AllowNull
   @Column
   chatbotId: number;
 
   @ApiProperty()
   @ForeignKey(() => User)
+  @AllowNull(false)
   @Column
   userId: number;
 }

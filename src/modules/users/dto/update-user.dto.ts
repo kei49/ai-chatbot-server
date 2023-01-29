@@ -7,4 +7,7 @@ export class UpdateUserDto extends PartialType(
 ) {
   @ApiProperty()
   name: string;
+
+  @ApiProperty()
+  currentChatId: number;
 }
