@@ -1,30 +1,42 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# AI Chatbot Server
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Flexible chatbot server integrating with external AI chatbot models or client channels as interface, inspired by ChatGPT.
+
+## Technology Stack
+
+- NestJS with TypeScript
+- Sequelize with Postgres
+
+## Requirements
+
+### Basic requirements
+
+- Users are unique by username
+- AI chatbots can be registered in the DB, and it is not implementing the chatbot itself, instead depending on external providers, such as API or websockets
+- Users can create a new 1-1 chat with an AI chatbot in one language, and own the chat
+- Users can join their own chats
+- Users can send and receive messages in a chat
+- Messge type should be 1: string, 2: title and array of selections (used by AI chatbots for questions) excluding any other format (images, stickers, audio by microphone, files, etc.)
+- ChatbotModels should be implemented by open-source HuggingFace models and provided by fastapi
+
+### DB schema
+
+- Users: username, name, currentChat as Chats.id
+- Chatbots: name, language, conversationId (unique for user-chatbot used for chatbot providers), APIName, APIEndpoint,
+- Chats: name, createdBy of Users.id, chatbotId as Chatbots.id
+- Messages: from, to, messageType, contents, chatId: Chats.id
+
+### Not included in the MVP
+
+- Authentication and authorization
+- Channel integration for Slack, Teams, LINE, etc.
+
+### Additional references for future implementation
+
+- chat types used in AI chatbots: https://github.com/ChatGPT-Hackers/ChatGPT-API-server
+- dialog models: https://huggingface.co/microsoft/DialoGPT-small?text=Hey+my+name+is+Mariama%21+How+are+you%3F
 
 ## Installation
 
@@ -58,16 +70,6 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
 ## License
 
-Nest is [MIT licensed](LICENSE).
+[MIT licensed](LICENSE).
