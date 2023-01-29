@@ -5,7 +5,6 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import { Chat } from '../../chats/entities/chat.entity';
-import { LoginUserDto } from '../dto/login-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -14,12 +13,6 @@ export class UserRepository {
   async create(createUserDto: CreateUserDto) {
     const res = await this.userModel.create({ ...createUserDto });
     return res.dataValues;
-  }
-
-  // THIS LOGIN IS NOT FOR PRODUCTION AND NEEDS TO BE UPDATED LATER
-  async login(loginUserDto: LoginUserDto) {
-    const user = await this.findByUsername(loginUserDto.userName);
-    return user;
   }
 
   async findAll(): Promise<User[]> {

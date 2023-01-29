@@ -12,7 +12,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
 import { JoinChatDto } from './dto/join-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 
-@Controller('chats')
+@Controller('')
 export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 
