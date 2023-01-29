@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
+import { Chat } from './entities/chat.entity';
 
 @Injectable()
 export class ChatsService {
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+  constructor(@InjectModel(Chat) private chatModel: typeof Chat) {}
+
+  async create(createChatDto: CreateChatDto) {
+    const chat = await this.chatModel.create({ ...createChatDto });
+    return chat;
   }
 
-  findAll() {
-    return `This action returns all chats`;
+  async findAll(): Promise<Chat[]> {
+    return this.chatModel.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chat`;
+  async findOne(id: string): Promise<Chat | null> {
+    return this.chatModel.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
-  update(id: number, updateChatDto: UpdateChatDto) {
-    return `This action updates a #${id} chat`;
+  async update(id: string, updateChatDto: UpdateChatDto): Promise<any> {
+    return await this.chatModel.update({ ...updateChatDto }, { where: { id } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chat`;
+  async remove(id: string): Promise<void> {
+    const chat = await this.findOne(id);
+    await chat?.destroy();
   }
 }

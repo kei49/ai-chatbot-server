@@ -27,16 +27,16 @@ export class ChatsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.chatsService.findOne(+id);
+    return this.chatsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatsService.update(+id, updateChatDto);
+    return this.chatsService.update(id, updateChatDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.chatsService.remove(+id);
+    return this.chatsService.remove(id);
   }
 }
