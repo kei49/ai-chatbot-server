@@ -18,10 +18,23 @@ export class ChatRepository {
     return this.chatModel.findAll();
   }
 
+  async findAllByUserId(userId: number): Promise<Chat[]> {
+    return this.chatModel.findAll({ where: { userId } });
+  }
+
   async findOne(id: number): Promise<Chat | null> {
     return this.chatModel.findOne({
       where: {
         id,
+      },
+    });
+  }
+
+  async findOneByUserId(userId: number, id: number): Promise<Chat | null> {
+    return this.chatModel.findOne({
+      where: {
+        id,
+        userId,
       },
     });
   }

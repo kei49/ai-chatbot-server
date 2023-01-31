@@ -6,16 +6,15 @@ import {
   Patch,
   Param,
   Delete,
-  Session,
-  BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { SessionData } from 'express-session';
-import { getUserIdBySession } from '../../../shared/session';
+import { User } from '../users/entities/user.entity';
+import { SessionUser } from '../users/user.decorator';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { JoinChatDto } from './dto/join-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
+import { ChatBelogToUserGuard } from './guard/chat.guard';
 
 @ApiTags('User')
 @Controller('')
@@ -24,36 +23,37 @@ export class ChatsController {
 
   @Post()
   create(
-    @Session() session: SessionData,
+    @SessionUser() sessionUser: User,
     @Body() createChatDto: CreateChatDto,
   ) {
-    const userId = getUserIdBySession(session);
-    if (!userId) throw new BadRequestException();
-
-    return this.chatsService.create(userId, createChatDto);
+    return this.chatsService.create(sessionUser.id, createChatDto);
   }
 
   @Get()
-  findAll() {
-    return this.chatsService.findAll();
+  findAll(@SessionUser() sessionUser: User) {
+    const userId = sessionUser.id;
+    return this.chatsService.findAllByUserId(userId);
   }
 
-  @ApiTags('Admin')
+  @UseGuards(ChatBelogToUserGuard)
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.chatsService.findOne(id);
+  findOne(@SessionUser() sessionUser: User, @Param('id') id: number) {
+    return this.chatsService.findOneByUserId(sessionUser.id, id);
   }
 
+  @UseGuards(ChatBelogToUserGuard)
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateChatDto: UpdateChatDto) {
     return this.chatsService.update(id, updateChatDto);
   }
 
+  @UseGuards(ChatBelogToUserGuard)
   @Patch('/:id/join')
-  joinChat(@Param('id') id: number, @Body() joinChatDto: JoinChatDto) {
-    return this.chatsService.joinChat(id, joinChatDto.userId);
+  joinChat(@SessionUser() sessionUser: User, @Param('id') id: number) {
+    return this.chatsService.joinChat(id, sessionUser.id);
   }
 
+  @UseGuards(ChatBelogToUserGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.chatsService.remove(id);

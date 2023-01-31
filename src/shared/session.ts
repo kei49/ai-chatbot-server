@@ -12,6 +12,3 @@ export const getSession = () => {
     },
   });
 };
-
-export const getUserIdBySession = (session: session.SessionData) =>
-  session ? session.user?.id : undefined;

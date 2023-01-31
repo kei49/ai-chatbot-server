@@ -21,8 +21,16 @@ export class ChatsService {
     return this.chatRepository.findAll();
   }
 
+  async findAllByUserId(userId: number): Promise<Chat[]> {
+    return this.chatRepository.findAllByUserId(userId);
+  }
+
   async findOne(id: number): Promise<Chat | null> {
     return this.chatRepository.findOne(id);
+  }
+
+  async findOneByUserId(userId: number, id: number) {
+    return this.chatRepository.findOneByUserId(userId, id);
   }
 
   async update(id: number, updateChatDto: UpdateChatDto): Promise<any> {

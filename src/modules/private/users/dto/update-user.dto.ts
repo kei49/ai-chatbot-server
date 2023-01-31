@@ -6,8 +6,13 @@ export class UpdateUserDto extends PartialType(
   OmitType(CreateUserDto, ['userName']),
 ) {
   @ApiProperty()
-  name: string;
+  name?: string;
 
   @ApiProperty()
-  currentChatId: number;
+  currentChatId?: number;
+}
+
+export class UpdateUserBaseDto {
+  @ApiProperty()
+  name: string;
 }
