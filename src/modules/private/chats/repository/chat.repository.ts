@@ -9,8 +9,8 @@ import { Chat } from '../entities/chat.entity';
 export class ChatRepository {
   constructor(@InjectModel(Chat) private chatModel: typeof Chat) {}
 
-  async create(createChatDto: CreateChatDto) {
-    const res = await this.chatModel.create({ ...createChatDto });
+  async create(userId: number, createChatDto: CreateChatDto) {
+    const res = await this.chatModel.create({ ...createChatDto, userId });
     return res.dataValues;
   }
 

@@ -13,8 +13,8 @@ export class ChatsService {
     private userRepository: UserRepository,
   ) {}
 
-  async create(createChatDto: CreateChatDto) {
-    return this.chatRepository.create(createChatDto);
+  async create(userId: number, createChatDto: CreateChatDto) {
+    return this.chatRepository.create(userId, createChatDto);
   }
 
   async findAll(): Promise<Chat[]> {
