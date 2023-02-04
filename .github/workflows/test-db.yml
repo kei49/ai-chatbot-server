@@ -9,7 +9,7 @@ jobs:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     # Docker Hub image that `container-job` executes in
-    container: node:10.18-jessie
+    container: node:18.13.0
 
     # Service containers to run with `container-job`
     services:
@@ -37,10 +37,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.13.0'
+      # - name: Setup node
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '18.13.0'
 
       - name: Yarn install
         run: yarn install --frozen-lockfile
