@@ -20,9 +20,9 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_DB: ai-chatbot-server-test
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_PORT: 5432
-          POSTGRES_USER: postgres_user
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
@@ -51,7 +51,7 @@ jobs:
           apt-get install --yes postgresql-client
 
       - name: Setup database
-        run: psql -h postgres -U postgres_user -c 'CREATE DATABASE "ai-chatbot-server-test";'
+        run: psql -h postgres -U postgres -c 'CREATE DATABASE "ai-chatbot-server-test";'
         env:
           PGPASSWORD: postgres
 
