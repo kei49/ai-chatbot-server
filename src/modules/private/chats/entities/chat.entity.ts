@@ -7,6 +7,7 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/entities/user.entity';
+import { Chatbot } from '../../chatbots/entities/chatbot.entity';
 
 @Table
 export class Chat extends Model {
@@ -15,7 +16,7 @@ export class Chat extends Model {
   @Column
   name: string;
 
-  // @ForeignKey(() => Chatbot)
+  @ForeignKey(() => Chatbot)
   @ApiProperty()
   @Column
   chatbotId: number;

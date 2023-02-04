@@ -14,13 +14,14 @@ import { SessionUser } from '../users/user.decorator';
 import { ChatsService } from './chats.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
-import { ChatBelogToUserGuard } from './guard/chat.guard';
+import { ChatBelogToUserGuard, ChatbotExisted } from './guard/chat.guard';
 
 @ApiTags('User')
 @Controller('')
 export class ChatsController {
   constructor(private readonly chatsService: ChatsService) {}
 
+  @UseGuards(ChatbotExisted)
   @Post()
   create(
     @SessionUser() sessionUser: User,

@@ -16,6 +16,7 @@ import { ChatsModule } from './private/chats/chats.module';
 import { AuthMiddleware } from '../shared/auth/auth.middleware';
 import { PrivateModule } from './private/private.module';
 import { AuthModule } from './auth/auth.module';
+import { ChatbotsModule } from './private/chatbots/chatbots.module';
 
 @Module({
   imports: [
@@ -33,6 +34,10 @@ import { AuthModule } from './auth/auth.module';
           {
             path: 'chats',
             module: ChatsModule,
+          },
+          {
+            path: 'chatbots',
+            module: ChatbotsModule,
           },
         ],
       },
