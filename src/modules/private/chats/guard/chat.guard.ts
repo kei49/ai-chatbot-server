@@ -11,13 +11,12 @@ export class ChatBelogToUserGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const sessionUser = (request.session as SessionData).user;
     const url = request.url;
-    const method = request.method;
 
     const chatId = url.includes('chats')
       ? request.params.id
-      : url.includes('messages') && (method === 'POST' || method === 'PATCH')
-      ? request.body.chatId
-      : request.query.chatId;
+      : url.includes('messages')
+      ? sessionUser.currentChatId
+      : undefined;
 
     const chat = await this.chatRepository.findOneByUserId(
       sessionUser.id,

@@ -6,9 +6,7 @@ import {
   Param,
   Delete,
   UseGuards,
-  ParseIntPipe,
   InternalServerErrorException,
-  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '../users/entities/user.entity';
@@ -30,6 +28,7 @@ export class MessagesController {
   ) {
     const chatbotMessage = await this.messagesService.create(
       sessionUser.id,
+      sessionUser.currentChatId,
       createMessageDto,
     );
 
@@ -41,18 +40,15 @@ export class MessagesController {
   }
 
   @Get('')
-  findAllByChatId(
-    @SessionUser() sessionUser: User,
-    @Query('chatId', ParseIntPipe) chatId: number,
-  ) {
-    return this.messagesService.findAllByChatId(sessionUser.id, chatId);
+  findAllByChatId(@SessionUser() sessionUser: User) {
+    return this.messagesService.findAllByChatId(
+      sessionUser.id,
+      sessionUser.currentChatId,
+    );
   }
 
   @Delete(':messageId')
-  async remove(
-    @Query('chatId', ParseIntPipe) _: number,
-    @Param('messageId') messageId: number,
-  ) {
+  async remove(@Param('messageId') messageId: number) {
     await this.messagesService.remove(messageId);
   }
 }

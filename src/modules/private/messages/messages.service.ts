@@ -9,10 +9,12 @@ export class MessagesService {
 
   async create(
     userId: number,
+    chatId: number,
     createMessageDto: CreateMessageDto,
   ): Promise<Message | null> {
     const userMessage = await this.messageRepository.create(
       userId,
+      chatId,
       createMessageDto,
     );
 
@@ -21,14 +23,14 @@ export class MessagesService {
         'This is the AI Chatbot! What do you want to talk with me?';
 
       const createChatbotMessageDto = {
-        chatId: createMessageDto.chatId,
         isFromUser: false,
         messageType: 'text',
         contents: chatbotMessageContent,
-      };
+      } as CreateMessageDto;
 
       const chatbotMessage = await this.messageRepository.create(
         userId,
+        chatId,
         createChatbotMessageDto,
       );
       return chatbotMessage;
