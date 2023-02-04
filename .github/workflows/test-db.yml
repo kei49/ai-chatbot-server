@@ -45,10 +45,10 @@ jobs:
       - name: Yarn install
         run: yarn install --frozen-lockfile
 
-      # - name: Install PostgreSQL client
-      #   run: |
-      #     apt-get update
-      #     apt-get install --yes postgresql-client
+      - name: Install PostgreSQL client
+        run: |
+          apt-get update
+          apt-get install --yes postgresql-client
 
       - name: Setup database
         run: psql -h postgres -U postgres_user -c 'CREATE DATABASE "ai-chatbot-server-test";'
