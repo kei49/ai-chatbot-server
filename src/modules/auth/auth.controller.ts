@@ -37,7 +37,7 @@ export class AuthController {
       throw new BadRequestException();
     }
 
-    session.user = user;
+    session.user = user.dataValues;
     return user;
   }
 }

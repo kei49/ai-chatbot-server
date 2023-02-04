@@ -32,16 +32,19 @@ export class UserRepository {
     });
   }
 
+  async findOneUserOnly(id: number): Promise<User | null> {
+    return this.userModel.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   async findByUsername(userName: string): Promise<User | null> {
     const user = await this.userModel.findOne({
       where: {
         userName,
       },
-      include: [
-        {
-          model: Chat,
-        },
-      ],
     });
 
     return user;

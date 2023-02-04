@@ -17,10 +17,14 @@ import { AuthMiddleware } from '../shared/auth/auth.middleware';
 import { PrivateModule } from './private/private.module';
 import { AuthModule } from './auth/auth.module';
 import { ChatbotsModule } from './private/chatbots/chatbots.module';
+import { MessagesModule } from './private/messages/messages.module';
+import { Chatbot } from './private/chatbots/entities/chatbot.entity';
+import { Message } from './private/messages/entities/message.entity';
 
 @Module({
   imports: [
     AuthModule,
+    UsersModule,
     PrivateModule,
     RouterModule.register([
       {
@@ -39,6 +43,10 @@ import { ChatbotsModule } from './private/chatbots/chatbots.module';
             path: 'chatbots',
             module: ChatbotsModule,
           },
+          {
+            path: 'messages',
+            module: MessagesModule,
+          },
         ],
       },
     ]),
@@ -47,7 +55,7 @@ import { ChatbotsModule } from './private/chatbots/chatbots.module';
       host: 'localhost',
       port: 5432,
       database: 'ai-chatbot-server',
-      models: [User, Chat],
+      models: [User, Chat, Chatbot, Message],
       autoLoadModels: true,
       synchronize: false,
     }),
