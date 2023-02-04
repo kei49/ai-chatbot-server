@@ -4,16 +4,12 @@ on:
     branches: [main]
 
 jobs:
-  # Label of the container job
   container-job:
-    # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     # Docker Hub image that `container-job` executes in
     container: node:18.13.0
 
-    # Service containers to run with `container-job`
     services:
-      # Label used to access the service container
       postgres:
         # Docker Hub image
         image: postgres
@@ -33,27 +29,11 @@ jobs:
           --health-retries 5
 
     steps:
-      # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      # - name: Setup node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '18.13.0'
-
       - name: Yarn install
         run: yarn install --frozen-lockfile
-
-      # - name: Install PostgreSQL client
-      #   run: |
-      #     apt-get update
-      #     apt-get install --yes postgresql-client
-
-      # - name: Setup database
-      #   run: psql -h postgres -U postgres -c 'CREATE DATABASE "ai-chatbot-server-test";'
-      #   env:
-      #     PGPASSWORD: postgres
 
       - name: Run migration
         run: NODE_ENV=ci-test yarn update-db
