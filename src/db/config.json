@@ -9,6 +9,11 @@
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
+  "ci-test": {
+    "database": "ai-chatbot-server-test",
+    "host": "postgres",
+    "dialect": "postgres"
+  },
   "production": {
     "database": "ai-chatbot-server",
     "host": "127.0.0.1",
