@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -20,6 +21,8 @@ import { ChatbotsModule } from './private/chatbots/chatbots.module';
 import { MessagesModule } from './private/messages/messages.module';
 import { Chatbot } from './private/chatbots/entities/chatbot.entity';
 import { Message } from './private/messages/entities/message.entity';
+import { getEnvFilePaths } from '../shared/env';
+import config from '../shared/config';
 
 @Module({
   imports: [
@@ -50,14 +53,23 @@ import { Message } from './private/messages/entities/message.entity';
         ],
       },
     ]),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      database: 'ai-chatbot-server',
-      models: [User, Chat, Chatbot, Message],
-      autoLoadModels: true,
-      synchronize: false,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: getEnvFilePaths(),
+      load: [config],
+    }),
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        dialect: configService.get('database.dialect'),
+        host: configService.get('database.host'),
+        port: +configService.get('database.port'),
+        database: configService.get('database.name'),
+        models: [User, Chat, Chatbot, Message],
+        autoLoadModels: true,
+        synchronize: false,
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AppController],
