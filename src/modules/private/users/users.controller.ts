@@ -66,7 +66,7 @@ export class UsersController {
 
   @ApiTags('Admin')
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    await this.usersService.remove(id);
   }
 }

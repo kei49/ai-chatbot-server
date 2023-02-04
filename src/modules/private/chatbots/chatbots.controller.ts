@@ -41,12 +41,15 @@ export class ChatbotsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateChatbotDto: UpdateChatbotDto) {
-    return this.chatbotsService.update(id, updateChatbotDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateChatbotDto: UpdateChatbotDto,
+  ) {
+    await this.chatbotsService.update(id, updateChatbotDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.chatbotsService.remove(id);
+  async remove(@Param('id') id: number) {
+    await this.chatbotsService.remove(id);
   }
 }

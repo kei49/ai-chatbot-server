@@ -44,19 +44,19 @@ export class ChatsController {
 
   @UseGuards(ChatBelogToUserGuard)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateChatDto: UpdateChatDto) {
-    return this.chatsService.update(id, updateChatDto);
+  async update(@Param('id') id: number, @Body() updateChatDto: UpdateChatDto) {
+    await this.chatsService.update(id, updateChatDto);
   }
 
   @UseGuards(ChatBelogToUserGuard)
   @Patch('/:id/join')
-  joinChat(@SessionUser() sessionUser: User, @Param('id') id: number) {
-    return this.chatsService.joinChat(id, sessionUser.id);
+  async joinChat(@SessionUser() sessionUser: User, @Param('id') id: number) {
+    await this.chatsService.joinChat(id, sessionUser.id);
   }
 
   @UseGuards(ChatBelogToUserGuard)
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.chatsService.remove(id);
+  async remove(@Param('id') id: number) {
+    await this.chatsService.remove(id);
   }
 }
