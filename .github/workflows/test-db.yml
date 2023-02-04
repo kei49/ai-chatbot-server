@@ -56,4 +56,4 @@ jobs:
       #     PGPASSWORD: postgres
 
       - name: Run migration
-        run: NODE_ENV=ci-test && yarn update-db
+        run: NODE_ENV=ci-test yarn update-db
