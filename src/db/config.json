@@ -12,7 +12,9 @@
   "ci-test": {
     "database": "ai-chatbot-server-test",
     "host": "postgres",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "username": "postgres",
+    "password": "postgres"
   },
   "production": {
     "database": "ai-chatbot-server",
